@@ -1,0 +1,10 @@
+{
+  "name": "likedown",
+  "title": "Likedown",
+  "description": "This is a Markdown Editor Lib.",
+  "version": "1.0.0",
+  "homepage": "http://likedown.chiki.org/",
+  "author": {
+    "name": "XiaoKu Inc."
+  }
+}

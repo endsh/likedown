@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>Likedown.js</title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+    <link href="../dist/css/likedown.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="http://cdn.bootcss.com/raphael/2.1.4/raphael-min.js"></script>
+    <script src="http://cdn.bootcss.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+    <script src="http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script src="../libs/Markdown.Converter.js"></script>
+    <script src="../libs/Markdown.Editor.js"></script>
+    <script src="../libs/Markdown.Extra.js"></script>
+    <script src="../libs/Markdown.MathJax.js"></script>
+    <script src="../libs/mathjax.config.js"></script>
+    <script src="../libs/flowchart-1.4.0.js"></script>
+    <script src="../dist/js/likedown.min.js"></script>
+    <style>
+        body {
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wmd-editor" class="wmd-editor fullscreen live-mode" data-type="likedown">
+        <div id="wmd-button-bar" class="wmd-button-bar"></div>
+        <div class="wmd-input-box">
+            <textarea id="wmd-input" class="wmd-input form-control" >
+Likedown示例文档
+===============
+
+**Likedown** 是参考了 [pagedown][1] 与 [stackedit][2] 的部分代码修改而来的 [markdown][3] 编辑器，其中图标则是用了 [segmentfault][4] 的编辑器图标。
+
+![enter image description here][5]
+
+基本的 Markdown 语法
+-------------------
+这是**粗体字**，这是*斜体字*，还可以加[链接][6]，图片就在下面再演示吧。
+插一根横线吧。
+
+----------
+
+### h1 - h6 字体
+#h1号字体#
+##h2号字体##
+###h3号字体###
+####h4号字体####
+#####h5号字体#####
+######h6号字体######
+
+#### 接下来的是有序列表
+
+  1. 有序列表项 - 1
+  2. 有序列表项 - 2
+  3. 有序列表项 - 3
+
+#### 接下来就是无序列表
+
+  - 无序列表项 - 1
+  - 无序列表项 - 2
+  - 无序列表项 - 3
+
+> 注意：这一块是引用，或者说 **blockquote** 吧，反正如果你喜欢的话，就用吧
+
+轮到代码块了，如 python 代码：
+
+```python
+# coding: utf-8
+import os
+
+def test():
+    pass
+
+def main():
+    test()
+
+if __name__ == '__main__':
+    main()
+```
+
+Markdown 扩展语法
+----------------
+
+#### 下面演示一下表格
+
+Item     | Value
+-------- | ---
+Computer | $1600
+Phone    | $12
+Pipe     | $1
+
+#### 对齐的表格
+| Item     | Value | Qty   |
+| :------- | ----: | :---: |
+| Computer | $1600 |  5    |
+| Phone    | $12   |  12   |
+| Pipe     | $1    |  234  |
+
+#### 缩进列表
+
+Term 1
+Term 2
+:   Definition A
+:   Definition B
+
+Term 3
+:   Definition C
+:   Definition D
+
+####这是页脚标注[^footnote].
+[^footnote]: Here is the *text* of the **footnote**.
+ 
+#### 公式
+
+不要问我这是什么公式啊, 我书读的少: $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$
+
+$$
+\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
+$$
+
+#### UML 图
+
+```sequence
+张三->李四: 欠我5毛钱什么时候还？
+Note right of 李四: 有钱我也不还你
+李四-->张三: 我没钱，宽限几天吧！
+```
+
+#### 流程图
+
+```flow
+st=>start: 开始
+e=>end
+op=>operation: 操作
+cond=>condition: 是否成功?
+
+st->op->cond
+cond(yes)->e
+cond(no)->op
+```
+
+
+  [1]: https://github.com/ujifgc/pagedown
+  [2]: https://github.com/benweet/stackedit
+  [3]: http://www.appinn.com/markdown/
+  [4]: http://segmentfault.com/
+  [5]: http://static.segmentfault.com/build/global/img/editor/editor@2x.png
+  [6]: http://www.chiki.org/
+            </textarea>
+        </div>
+        <div class="wmd-line"></div>
+        <div class="wmd-preview-box">
+            <div id="wmd-preview" class="wmd-preview likedown"></div>
+        </div>
+    </div>
+    <div class="modal fade modal-insert-link">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">插入链接</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                        <input id="input-insert-link" type="text" class="col-sm-5 form-control" 
+                            placeholder='http://example.com/' />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
+                    <a href="#" class="btn btn-primary action-insert-link" data-dismiss="modal">插入</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-insert-image">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">插入图片</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                        <input id="input-insert-image" type="text" class="col-sm-5 form-control"
+                            placeholder='http://example.com/image.jpg' />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
+                    <a href="#" class="btn btn-primary action-insert-image" data-dismiss="modal">插入</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
