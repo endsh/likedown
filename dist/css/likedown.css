@@ -231,7 +231,7 @@
   text-align: start;
   border: 0;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .likedown pre code {
   background-color: transparent !important;
@@ -240,8 +240,8 @@
   border-left-width: 6px;
   border-color: #32b16c;
   background-color: #f8f8f8;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
   padding: 15px 20px;
 }
 .likedown blockquote p {
