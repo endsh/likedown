@@ -5073,7 +5073,7 @@ MathJax.Hub.Config({
 		var editor = this.editor = new Markdown.Editor(converter, this.options.postfix, {
 			handler: this.options.help
 		})
-		var preview = this.preview = document.getElementById('wmd-preview' + postfix)
+		var preview = this.preview = document.getElementById('wmd-preview' + this.options.postfix)
 		Markdown.Extra.init(converter, this.options)
 		Markdown.MathJax.init(editor, this.options.postfix)
 		Markdown.Toc.init(editor, this.options.postfix, this.options.toc)
@@ -5128,7 +5128,7 @@ MathJax.Hub.Config({
 	}
 
 	Likedown.prototype.onPreviewRefresh = function () {
-		onPreviewRefresh(this.preview)
+		onPreviewRefresh(document.getElementById('wmd-preview' + this.options.postfix))
 	}
 
 	var onAsyncPreviewListenerList = [ Markdown.MathJax.onAsyncPreview ]
@@ -5148,15 +5148,14 @@ MathJax.Hub.Config({
 	}
 
 	function onPreviewRefresh(preview) {
-		preview = preview || document
-		$(preview).children("pre > code").each(function () {
+		$("pre > code").each(function () {
 			try {
 				!this.highlighted && hljs.highlightBlock(this)
 				this.highlighted = true
 			} catch (e) {}
 		})
 
-		$(preview).children("pre > code.language-sequence").each(function () {
+		$("pre > code.language-sequence").each(function () {
 			try {
 				var diagram = Diagram.parse(this.textContent)
 				var parent = this.parentNode
@@ -5167,7 +5166,7 @@ MathJax.Hub.Config({
 			} catch (e) {}
 		})
 
-		$(preview).children("pre > code.language-flow").each(function () {
+		$("pre > code.language-flow").each(function () {
 			try {
 				var chart = flowchart.parse(this.textContent)
 				var parent = this.parentNode
