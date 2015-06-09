@@ -17,6 +17,7 @@
     <script src="../libs/Markdown.Editor.js"></script>
     <script src="../libs/Markdown.Extra.js"></script>
     <script src="../libs/Markdown.MathJax.js"></script>
+    <script src="../libs/Markdown.Toc.js"></script>
     <script src="../libs/mathjax.config.js"></script>
     <script src="../libs/flowchart-1.4.0.js"></script>
     <script src="../dist/js/likedown.min.js"></script>
@@ -30,7 +31,7 @@
     <div id="wmd-editor" class="wmd-editor fullscreen live-mode" data-type="likedown">
         <div id="wmd-button-bar" class="wmd-button-bar"></div>
         <div class="wmd-input-box">
-            <textarea id="wmd-input" class="wmd-input form-control" >
+            <textarea id="wmd-input" class="wmd-input form-control">
 Likedown示例文档
 ===============
 
@@ -45,21 +46,26 @@ Likedown示例文档
 
 ----------
 
-### h1 - h6 字体
-#h1号字体#
-##h2号字体##
-###h3号字体###
-####h4号字体####
-#####h5号字体#####
-######h6号字体######
+#### h1-h6字体
 
-#### 接下来的是有序列表
+由于h1-h6会出现在目录中，这里只是把用法展示一下，效果就不说了。
+
+```
+# h1号字体
+## h2号字体
+### h3号字体
+#### h4号字体
+##### h5号字体
+###### h6号字体
+```
+
+#### 有序列表
 
   1. 有序列表项 - 1
   2. 有序列表项 - 2
   3. 有序列表项 - 3
 
-#### 接下来就是无序列表
+#### 无序列表
 
   - 无序列表项 - 1
   - 无序列表项 - 2
@@ -95,6 +101,7 @@ Phone    | $12
 Pipe     | $1
 
 #### 对齐的表格
+
 | Item     | Value | Qty   |
 | :------- | ----: | :---: |
 | Computer | $1600 |  5    |
@@ -112,8 +119,16 @@ Term 3
 :   Definition C
 :   Definition D
 
-####这是页脚标注[^footnote].
-[^footnote]: Here is the *text* of the **footnote**.
+#### 页脚标注
+
+比如说需要页脚标注的时候，可以点一下[^footnote].
+[^footnote]: 这个就是用于描述的 **页脚标注**.
+
+#### 文档目录
+
+想在文档中插入目录时，可以使用`[TOC]`:
+
+[TOC]
  
 #### 公式
 
@@ -150,8 +165,7 @@ cond(no)->op
   [3]: http://www.appinn.com/markdown/
   [4]: http://segmentfault.com/
   [5]: http://static.segmentfault.com/build/global/img/editor/editor@2x.png
-  [6]: http://www.chiki.org/
-            </textarea>
+  [6]: http://www.chiki.org/</textarea>
         </div>
         <div class="wmd-line"></div>
         <div class="wmd-preview-box">

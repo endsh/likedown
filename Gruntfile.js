@@ -25,6 +25,21 @@ module.exports = function (grunt) {
             ],
         },
 
+        concat: {
+            ext: {
+                src: [
+                    'libs/Markdown.Converter.js',
+                    'libs/Markdown.Editor.js',
+                    'libs/Markdown.Extra.js',
+                    'libs/Markdown.MathJax.js',
+                    'libs/Markdown.Toc.js',
+                    'libs/mathjax.config.js',
+                    'src/js/likedown.js',
+                ],
+                dest: 'dist/js/likedown-ext.js',
+            }
+        },
+
         uglify: {
             options: {
                 banner: '<%= banner %>',
@@ -35,6 +50,18 @@ module.exports = function (grunt) {
                 ],
                 dest: 'dist/js/likedown.min.js',
             },
+            ext: {
+                src: [
+                    'libs/Markdown.Converter.js',
+                    'libs/Markdown.Editor.js',
+                    'libs/Markdown.Extra.js',
+                    'libs/Markdown.MathJax.js',
+                    'libs/Markdown.Toc.js',
+                    'libs/mathjax.config.js',
+                    'src/js/likedown.js',
+                ],
+                dest: 'dist/js/likedown-ext.min.js',
+            }
         },
 
         jshint: {
@@ -80,11 +107,17 @@ module.exports = function (grunt) {
         },
 
         copy: {
-            fonts: {
+            img: {
                 expand: true,
                 src: 'img/**',
-                dest: 'dist/',
+                dest: 'dist',
             },
+            js: {
+                expand: true,
+                cwd: 'libs',
+                src: 'flowchart-1.4.0.js',
+                dest: 'dist/js',
+            }
         },
     });
 
@@ -92,7 +125,7 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
 
     grunt.registerTask('dist-css', ['less', 'cssmin']);
-    grunt.registerTask('dist-js', ['uglify']);
+    grunt.registerTask('dist-js', ['concat', 'uglify']);
     grunt.registerTask('dist-copy', ['copy']);
     grunt.registerTask('build', ['clean', 'dist-css', 'dist-js', 'dist-copy']);
     grunt.registerTask('default', ['build']);

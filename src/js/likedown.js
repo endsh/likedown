@@ -16,25 +16,22 @@
 		highlighter: "highlight",
 		help: function () {
 			window.open('http://likedown.chiki.org/');
-		}
+		},
 	}
 
 	Likedown.prototype.init = function () {
-		var that = this
 		var converter = this.converter = new Markdown.Converter()
 		var editor = this.editor = new Markdown.Editor(converter, this.options.postfix, {
 			handler: this.options.help
 		})
+		var preview = this.preview = document.getElementById('wmd-preview' + postfix)
 		Markdown.Extra.init(converter, this.options)
 		Markdown.MathJax.init(editor, this.options.postfix)
-		editor.hooks.chain("onPreviewRefresh", this.onPreviewRefresh)
+		Markdown.Toc.init(editor, this.options.postfix, this.options.toc)
+		editor.hooks.chain("onPreviewRefresh", $.proxy(this.onPreviewRefresh, this))
 		editor.hooks.chain("onPreviewRefresh", this.onAsyncPreview)
-		editor.hooks.set("insertLinkDialog", function (callback) {
-			return that.insertLinkDialog(callback)
-		})
-		editor.hooks.set("insertImageDialog", function (callback) {
-			return that.insertImageDialog(callback)
-		})
+		editor.hooks.set("insertLinkDialog", $.proxy(this.insertLinkDialog, this))
+		editor.hooks.set("insertImageDialog", $.proxy(this.insertImageDialog, this))
 		editor.run()
 		this.initModals()
 	}
@@ -82,38 +79,7 @@
 	}
 
 	Likedown.prototype.onPreviewRefresh = function () {
-		$("pre > code").each(function () {
-			try {
-				!this.highlighted && hljs.highlightBlock(this)
-				this.highlighted = true
-			} catch (e) {}
-		})
-
-		$("pre > code.language-sequence").each(function () {
-			try {
-				var diagram = Diagram.parse(this.textContent)
-				var parent = this.parentNode
-				var container = document.createElement("div")
-				container.className = "sequence-diagram"
-				parent.parentNode.replaceChild(container, parent)
-				diagram.drawSVG(container, { theme: "simple" })
-			} catch (e) {}
-		})
-
-		$("pre > code.language-flow").each(function () {
-			try {
-				var chart = flowchart.parse(this.textContent)
-				var parent = this.parentNode
-				var container = document.createElement("div")
-				container.className = "flow-chart"
-				parent.parentNode.replaceChild(container, parent)
-				chart.drawSVG(container, {
-					"line-width": 2,
-					"font-family": "sans-serif",
-					"font-weight": "normal"
-				})
-			} catch (e) {}
-		})
+		onPreviewRefresh(this.preview)
 	}
 
 	var onAsyncPreviewListenerList = [ Markdown.MathJax.onAsyncPreview ]
@@ -129,8 +95,44 @@
 			function (callback) {
 				callback()
 			}
-		]));
-	};
+		]))
+	}
+
+	function onPreviewRefresh(preview) {
+		preview = preview || document
+		$(preview).children("pre > code").each(function () {
+			try {
+				!this.highlighted && hljs.highlightBlock(this)
+				this.highlighted = true
+			} catch (e) {}
+		})
+
+		$(preview).children("pre > code.language-sequence").each(function () {
+			try {
+				var diagram = Diagram.parse(this.textContent)
+				var parent = this.parentNode
+				var container = document.createElement("div")
+				container.className = "sequence-diagram"
+				parent.parentNode.replaceChild(container, parent)
+				diagram.drawSVG(container, { theme: "simple" })
+			} catch (e) {}
+		})
+
+		$(preview).children("pre > code.language-flow").each(function () {
+			try {
+				var chart = flowchart.parse(this.textContent)
+				var parent = this.parentNode
+				var container = document.createElement("div")
+				container.className = "flow-chart"
+				parent.parentNode.replaceChild(container, parent)
+				chart.drawSVG(container, {
+					"line-width": 2,
+					"font-family": "sans-serif",
+					"font-weight": "normal"
+				})
+			} catch (e) {}
+		})
+	}
 
 	function Plugin(option) {
 		return this.each(function () {
@@ -155,6 +157,8 @@
 
 	$(function () {
 		$('[data-type="likedown"]').likedown()
-	});	
+		onPreviewRefresh()
+		Markdown.MathJax.onAsyncPreview()
+	})
 
 }(jQuery);
